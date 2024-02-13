@@ -1,31 +1,23 @@
-'''def tri_recursion(k):
-    if k > 0:
-        result = k + tri_recursion(k - 1)
-        print(result)
-    else:
-        result = 0
-    return result
+import pandas as pd
+import os
+
+data = pd.read_csv("Actifs/Actifcsv.csv", delimiter=";")
+data["Date"] = pd.to_datetime(data["Date"])
+data['Volume'] = data['Volume'].str.replace(' ', '').replace(',', '').astype(int)
+data["Entreprise"] = "Dassault"
+data['Entreprise'] = data['Entreprise'].astype(str)
+data = data.drop(columns=["Taux de Variation Trimestrielle", "Taux de Variation Annuelle"])
+data.iloc[:, 7:11] = data.iloc[:, 7:11].apply(lambda x: x.round(4))
 
 
-print("\n\nRecursion Example Results")
-tri_recursion(6)'''
+type_data = data.dtypes
 
+print(data["Covarience Actif marché"].head())
 
-# Python program to display the Fibonacci sequence
+nouveau_fichier = "Actifs_df/Actifcsv_df_dassault"
 
-def recur_fibo(n):
-    if n <= 1:
-        return n
-    else:
-        return recur_fibo(n - 1) + recur_fibo(n - 2)
-
-
-nterms = 10
-
-# check if the number of terms is valid
-if nterms <= 0:
-    print("Plese enter a positive integer")
+if os.path.exists(nouveau_fichier):
+    print("Le fichier existe déjà")
 else:
-    print("Fibonacci sequence:")
-    for i in range(nterms):
-        print(recur_fibo(i))
+    data.to_csv(nouveau_fichier, sep=';', encoding='utf-8', index=False)
+    print(f"Le fichier a été créé avec succès à l'emplacement : {nouveau_fichier}")
