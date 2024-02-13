@@ -2,6 +2,15 @@ import pandas as pd
 import os
 
 data = pd.read_csv("Actifs/Actifcsv.csv", delimiter=";")
+
+# autre solution pour convertir des chaines en nombre
+"""colonnes_a_convertir = ['Colonne1', 'Colonne2', 'Colonne3']
+
+for colonne in colonnes_a_convertir:
+    # Enlever le symbole "€" et les virgules, puis convertir en float
+    data[colonne] = data[colonne].str.replace('€', '').str.replace(',', '.').astype(float)"""
+
+# modification des données pour etre plus lisible
 data["Date"] = pd.to_datetime(data["Date"])
 data['Volume'] = data['Volume'].str.replace(' ', '').replace(',', '').astype(int)
 data["Entreprise"] = "Dassault"
@@ -9,10 +18,12 @@ data['Entreprise'] = data['Entreprise'].astype(str)
 data = data.drop(columns=["Taux de Variation Trimestrielle", "Taux de Variation Annuelle"])
 data.iloc[:, 7:11] = data.iloc[:, 7:11].apply(lambda x: x.round(4))
 
-
+# verification des modifs
 type_data = data.dtypes
 
-print(data["Covarience Actif marché"].head())
+print(type_data)
+
+# création d'un nouveau fichier
 
 nouveau_fichier = "Actifs_df/Actifcsv_df_dassault"
 
