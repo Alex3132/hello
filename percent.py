@@ -35,6 +35,31 @@ resultat = pd.DataFrame(resultat)
 
 print(resultat)
 
+volume = []
+for name, group in df_actif.groupby(df_actif["Date"].dt.year):
+    if group['Volume'].empty:
+        continue
+
+    # Calculer le volume total pour l'année
+    volume_total_annuel = group['Volume'].sum()
+
+    # Trouver le nombre de mois uniques dans l'année
+    nombre_de_mois = group['Date'].dt.month.nunique()
+
+    # Calculer le volume moyen par mois pour l'année
+    volume_moyen_par_mois = volume_total_annuel / nombre_de_mois if nombre_de_mois > 0 else 0
+
+    volume.append({'Année': name, 'Volume_Moyen_Par_Mois': round(volume_moyen_par_mois, 2)})
+
+volume = pd.DataFrame(volume)
+
+print(volume)
+
+
+
+
+#########################################################################
+
 nouveau_fichier = "Taux_variation_annuelle/Variation_df_dassault.csv"
 
 if os.path.exists(nouveau_fichier):
@@ -44,8 +69,15 @@ else:
     print(f"Le fichier a été créé avec succès à l'emplacement : {nouveau_fichier}")
 
 
-plt.plot(resultat["Année"],resultat["Taux de Variation Annuelle"])
+"""plt.plot(resultat["Année"],resultat["Taux de Variation Annuelle"])
 plt.title("Taux de Variation annuelle depuis 2011")
 plt.xlabel("Année")
 plt.ylabel("Taux de Variation annuelle")
+plt.show()"""
+
+
+plt.plot(volume["Année"],volume["Volume_Moyen_Par_Mois"])
+plt.title("Moyenne de volume annuelle depuis 2011")
+plt.xlabel("Année")
+plt.ylabel("Moyenne de volume")
 plt.show()
