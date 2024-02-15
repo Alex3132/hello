@@ -23,8 +23,6 @@ for nom_fichier in fichiers:
     chemin_sauvegarde = f"{dossier}_df/{nom_fichier_modifie}"
     data.to_csv(chemin_sauvegarde, index=False)
 
-    chemin_sauvegarde = f"{dossier}_df/{nom_fichier_modifie}"
-
     if not os.path.exists(chemin_sauvegarde):
         data.to_csv(chemin_sauvegarde, index=False)
     else:
