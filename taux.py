@@ -1,39 +1,47 @@
 import pandas as pd
+import os
 
 # Étape 1: Charger les données
-file_path = 'Actifs_df/Actif_dassault_modifie.csv'  # Assurez-vous que le chemin est correct
-data_dassault_modifie = pd.read_csv(file_path, delimiter=';')
+from charge_dossier_csv import charger_csv_dossier
 
-# Convertir la colonne 'Date' en datetime pour faciliter le regroupement
-data_dassault_modifie['Date'] = pd.to_datetime(data_dassault_modifie['Date'], dayfirst=True)
+# Charger les données
+dossier = "Actifs_modifie"
+dataframes = charger_csv_dossier(dossier)
 
-# Définir l'année et le trimestre pour chaque ligne
-data_dassault_modifie['Année'] = data_dassault_modifie['Date'].dt.year
-data_dassault_modifie['Trimestre'] = data_dassault_modifie['Date'].dt.to_period('Q')
+for nom_fichier, dataframe in dataframes.items():
+    # Extraire le nom de l'entreprise à partir du nom du fichier
+    nom_entreprise = nom_fichier.split('Actif_')[-1].split('_modifie')[0].capitalize()
 
-# Calculer les rendements trimestriels
-rendements_trimestriels = data_dassault_modifie.groupby(['Année', 'Trimestre'])['Taux de Variation Mensuelle'].apply(
-    lambda x: (1 + x).prod() - 1).reset_index(name='Rendement Trimestriel')
+    # Convertir la colonne 'Date' en datetime pour faciliter le regroupement
+    dataframe['Date'] = pd.to_datetime(dataframe['Date'], dayfirst=True)
 
-# Calculer les rendements annuels
-rendements_annuels = data_dassault_modifie.groupby('Année')['Taux de Variation Mensuelle'].apply(
-    lambda x: (1 + x).prod() - 1).reset_index(name='Rendement Annuel')
+    # Définir l'année et le trimestre pour chaque ligne
+    dataframe['Année'] = dataframe['Date'].dt.year
+    dataframe['Trimestre'] = dataframe['Date'].dt.to_period('Q')
 
-# Afficher les résultats
-print("Rendements trimestriels de l'action Dassault :")
-print(rendements_trimestriels)
+    # Calculer les rendements trimestriels
+    rendements_trimestriels = dataframe.groupby(['Année', 'Trimestre'])['Taux de Variation Mensuelle'].apply(
+        lambda x: (1 + x).prod() - 1).reset_index(name='Rendement Trimestriel')
 
-print("\nRendements annuels de l'action Dassault :")
-print(rendements_annuels)
+    # Calculer les rendements annuels
+    rendements_annuels = dataframe.groupby('Année')['Taux de Variation Mensuelle'].apply(
+        lambda x: (1 + x).prod() - 1).reset_index(name='Rendement Annuel')
 
-chemin_fichier_trimestriels = 'Taux/rendements_trimestriels_dassault.csv'
-chemin_fichier_annuels = 'Taux/rendements_annuels_dassault.csv'
+    # Afficher les résultats
+    print(f"Rendements trimestriels de l'action {nom_entreprise} :")
+    print(rendements_trimestriels)
 
-# Sauvegarder les rendements trimestriels dans un fichier CSV
-rendements_trimestriels.to_csv(chemin_fichier_trimestriels, index=False, sep=';')
+    print(f"\nRendements annuels de l'action {nom_entreprise} :")
+    print(rendements_annuels)
 
-# Sauvegarder les rendements annuels dans un autre fichier CSV
-rendements_annuels.to_csv(chemin_fichier_annuels, index=False, sep=';')
+    chemin_fichier_trimestriels = f'Taux/{nom_entreprise}/rendements_trimestriels_{nom_entreprise}.csv'
+    chemin_fichier_annuels = f'Taux/{nom_entreprise}/rendements_annuels_{nom_entreprise}.csv'
 
-print(f"Les rendements trimestriels ont été sauvegardés dans : {chemin_fichier_trimestriels}")
-print(f"Les rendements annuels ont été sauvegardés dans : {chemin_fichier_annuels}")
+    # Sauvegarder les rendements trimestriels dans un fichier CSV
+    rendements_trimestriels.to_csv(chemin_fichier_trimestriels, index=False, sep=';')
+
+    # Sauvegarder les rendements annuels dans un autre fichier CSV
+    rendements_annuels.to_csv(chemin_fichier_annuels, index=False, sep=';')
+
+    print(f"Les rendements trimestriels ont été sauvegardés dans : {chemin_fichier_trimestriels}")
+    print(f"Les rendements annuels ont été sauvegardés dans : {chemin_fichier_annuels}")

@@ -1,10 +1,13 @@
 import os
 import pandas as pd
 
-dossier = "Actifs"
-fichiers = os.listdir(dossier)
+from charge_dossier_csv import charger_csv_dossier
 
-for nom_fichier in fichiers:
+dossier = "Actifs"
+dataframes = charger_csv_dossier(dossier)
+
+
+for nom_fichier in dataframes:
     chemin_complet = f"{dossier}/{nom_fichier}"
 
     # Assurer que le fichier est un fichier CSV avant de continuer

@@ -1,14 +1,12 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-import os
-import charge_dossier_csv
+from charge_dossier_csv import *
 
 # Charger les données
-
 dossier = "Actifs_modifie"
-fichiers = os.listdir(dossier)
+dataframes = charger_csv_dossier(dossier)
 
-for nom_fichier in fichiers:
+
+for nom_fichier in dataframes:
     chemin_complet = f"{dossier}/{nom_fichier}"
     data = pd.read_csv(chemin_complet, delimiter=';')
 
