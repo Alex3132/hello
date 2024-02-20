@@ -1,27 +1,24 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-
 from charge_dossier_csv import charger_csv_dossier
 
+# Charger les données
 dossier = "Actifs_modifie"
 dataframes = charger_csv_dossier(dossier)
 
-
-for nom_fichier in dataframes:
-    chemin_complet = f"{dossier}/{nom_fichier}"
-    data = pd.read_csv(chemin_complet, delimiter=';')
+for nom_fichier, dataframe in dataframes.items():
 
     # Convertir la colonne 'Date' au format datetime pour une meilleure manipulation
-    data['Date'] = pd.to_datetime(data['Date'], dayfirst=True)
+    dataframe['Date'] = pd.to_datetime(dataframe['Date'], dayfirst=True)
 
     # Préparer le graphique
     plt.figure(figsize=(14, 8))
 
     # Tracer les lignes pour les prix d'ouverture, de clôture, les plus hauts et les plus bas
-    plt.plot(data['Date'], data['Cloture'], label='Clôture', color='blue')
-    plt.plot(data['Date'], data['Ouverture'], label='Ouverture', color='green')
-    plt.plot(data['Date'], data['Plus haut'], label='Plus haut', color='red')
-    plt.plot(data['Date'], data['Plus bas'], label='Plus bas', color='purple')
+    plt.plot(dataframe['Date'], dataframe['Cloture'], label='Clôture', color='blue')
+    plt.plot(dataframe['Date'], dataframe['Ouverture'], label='Ouverture', color='green')
+    plt.plot(dataframe['Date'], dataframe['Plus haut'], label='Plus haut', color='red')
+    plt.plot(dataframe['Date'], dataframe['Plus bas'], label='Plus bas', color='purple')
 
     # Ajouter un titre et des étiquettes pour les axes
     plt.title('Évolution du prix de l\'action Dassault au fil du temps')
