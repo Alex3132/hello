@@ -1,4 +1,4 @@
-Clôture_secteur;Date;Clôture;Ouverture;Plus haut;Plus bas;Volume;Taux de Variation Mensuelle;Taux de variation du marché;Variance de la rentabilité du marché;Covarience Actif marché;Entreprise
+Cloture_secteur;Date;Cloture;Ouverture;Plus haut;Plus bas;Volume;Taux de Variation Mensuelle;Taux de variation du marché;Variance de la rentabilité du marché;Covarience Actif marché;Entreprise
 19.41;01/01/2010;4.14;3.98;4.33;3.98;3121382;0.0;0.0;0.0;0.0;Dassault
 19.23;01/02/2010;4.15;4.15;4.25;3.87;4159024;0.0039;-0.0093;0.0;-0.0;Dassault
 21.5;01/03/2010;4.36;4.26;4.47;4.26;5200919;0.0489;0.1116;0.0024;0.0055;Dassault
