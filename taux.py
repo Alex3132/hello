@@ -1,5 +1,4 @@
 import pandas as pd
-import os
 
 # Étape 1: Charger les données
 from charge_dossier_csv import charger_csv_dossier

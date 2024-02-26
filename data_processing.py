@@ -28,9 +28,6 @@ for nom_fichier in dataframes:
         print(f"La colonne 'Volume' n'existe pas dans le fichier {nom_fichier}")
         continue  # Passer au fichier suivant si 'Volume' n'existe pas
 
-    data.columns = data.columns.str.replace('Clôture.1', 'Cloture').str.replace('Clôture',
-                                                                                'Cloture_secteur').str.replace('€',
-                                                                                                               '').str.strip()
     data = data.rename(columns={'Cloture_secteur': 'Cloture_secteur', 'Cloture': 'Cloture'})
 
     # Nettoyage des valeurs numériques et conversion en float

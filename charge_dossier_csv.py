@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 
+from pandas import DataFrame
+
 
 def charger_csv_dossier(dossier):
     fichiers_dataframes = {}  # Dictionnaire pour stocker les noms de fichiers et les DataFrames
@@ -12,7 +14,7 @@ def charger_csv_dossier(dossier):
         # Vérifier si c'est un fichier CSV
         if os.path.isfile(chemin_complet) and nom_fichier.endswith('.csv'):
             # Charger le fichier CSV dans un DataFrame
-            data = pd.read_csv(chemin_complet, delimiter=';')
+            data: DataFrame = pd.read_csv(chemin_complet, delimiter=';')
             # Ajouter le DataFrame au dictionnaire avec le nom du fichier comme clé
             fichiers_dataframes[nom_fichier] = data
 
