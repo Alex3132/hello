@@ -10,9 +10,9 @@ for nom_fichier, dataframe in dataframes.items():
     dataframe['Différence'] = dataframe['Plus haut'] - dataframe['Plus bas']
     
     # Calculer des statistiques descriptives pour la nouvelle colonne 'Différence'
-    stats_volatilité = dataframe['Différence'].describe()
+    stats_volatilite = dataframe['Différence'].describe()
     print("Statistiques de la volatilité basée sur la différence quotidienne/mensuelle entre le plus haut et le plus bas :")
-    print(stats_volatilité)
+    print(stats_volatilite)
     
     # Visualisation de la volatilité au fil du temps
     plt.figure(figsize=(14, 8))
